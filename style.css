@@ -1,0 +1,37 @@
+body {
+  background: #f7fdf690;
+  overflow-x: hidden;
+}
+
+main {
+  position: relative;
+}
+
+.container form input,
+.container form textarea {
+  background-color: #f7fdf690;
+}
+
+.container {
+  width: 50%;
+}
+
+.alert {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  transform: translateX(-30%);
+  transition: transform 0.5s ease-in-out;
+}
+.alert.active {
+  transform: translateX(0%);
+}
+.alert.remove {
+  transform: translateX(100%);
+}
+
+@media screen and (max-width: 990px) {
+  .container {
+    width: 100%;
+  }
+}
