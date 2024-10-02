@@ -17,14 +17,13 @@
     <link rel="stylesheet" href="style.css" />
     <title>Document</title>
   </head>
+
   <body>
     <main class="position-relative">
       <section class="container">
-        <div class="bg-white my-5 p-3 py-5 border p-4 rounded d-grid gap-3">
-          <h1 class="fs-1 fw-bold text-success text-capitalize text-center">
-            curd app
-          </h1>
-          <form id="task-form">
+        <div class="bg-white my-5 p-3 py-5 border p-4 rounded">
+          <h1 class="fs-1 fw-bold text-capitalize text-center">curd app</h1>
+          <form id="form">
             <div class="mb-3">
               <input
                 type="text"
@@ -47,7 +46,11 @@
               ></span>
             </div>
 
-            <button type="submit" class="btn btn-success w-100 py-2">
+            <button
+              type="submit"
+              id="submit-btn"
+              class="btn w-100 py-2 fw-semibold"
+            >
               Submit
             </button>
           </form>
@@ -55,8 +58,11 @@
 
         <ul id="tasks-group" class="list-unstyled row gap-3 gap-lg-0"></ul>
       </section>
-      <div id="alert" class="position-fixed end-0 bottom-50"></div>
+      <section>
+        <div id="alert" class="alert"></div>
+      </section>
     </main>
+
     <script src="./script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

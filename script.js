@@ -1,76 +1,84 @@
 var alerts = document.getElementById("alert");
 var edit = document.getElementById("edit");
-let data = [];
+let isEdit = false;
+let editedId;
+
+var data = localStorage.getItem("data")
+  ? JSON.parse(localStorage.getItem("data"))
+  : [];
 
 function showMessage(message, className) {
   alerts.innerText = message;
   alerts.className = `alert alert-${className}`;
-  setTimeout(() => alerts.classList.add("remove"), 3000);
+  alerts.classList.add("active");
+  setTimeout(() => alerts.classList.remove("active"), 2500);
 }
 
-function getAllTasks() {
-  var items = document.getElementById("tasks-group");
-  items.innerHTML += data.map((item) => {
-    return `
-        <li class="task col-lg-6 col-sm-12 mt-3">
-            <div class="card pb-4 position-relative">
-              <div class="card-body">
-                <h3 class="card-title text-success" id="">${item.title}</h3>
-                <p class="card-text">
-              ${item.description}
-                </p>
-              </div>
-              <div class="position-absolute bottom-0 end-0 pb-2 pe-2">
-                <button class="btn btn-outline-success px-2 py-1" id="edit" >
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn btn-outline-danger px-2 py-1" id="delete" '>
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </div>
-          </li>`;
-  });
-}
-
-function AddNewTask() {
+document.getElementById("form").addEventListener("submit", function (e) {
+  e.preventDefault();
   var title = document.getElementById("title").value;
   var description = document.getElementById("description").value;
-  if (title === "") {
-    document.querySelector(".validation").innerText = "title is required";
-  } else if (description === "") {
-    document.querySelector(".validation").innerText = "description is required";
-  } else {
-    document.querySelector(".validation").innerText = "";
-  }
-  data.push({
+  const TaskData = {
     title: title,
     description: description,
-  });
-  title.innerText = "";
-  description.innerText = "";
-  getAllTasks();
-}
-
-function DeleteTask(item) {
-  item.parentElement.parentElement.remove();
-  alerts.classList.add("active");
-  showMessage("this message deleted ", "danger");
-}
-function EditTask() {
-  alerts.classList.add("active");
-  showMessage("this message edited successfully ", "success");
-}
-
-document.getElementById("task-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  AddNewTask();
-  console.log(data);
+  };
+  if (!isEdit) {
+    data.push(TaskData);
+    showMessage("task added successfully", "info");
+  } else {
+    isEdit = false;
+    data[editedId] = TaskData;
+    showMessage("task updated successfully", "warning");
+  }
+  document.getElementById("submit-btn").innerText = "submit";
+  localStorage.setItem("data", JSON.stringify(data));
+  document.getElementById("form").reset();
+  showTasks();
 });
 
-document.getElementById("delete").addEventListener("click", (item) => {
-  DeleteTask(item);
-});
-document.getElementById("edit").addEventListener("click", () => {
-  EditTask();
-});
+function showTasks() {
+  var container = document.getElementById("tasks-group");
+  container.innerHTML = data
+    .map((item, index) => {
+      return ` <li key=${index} class="task col-lg-6 col-sm-12 mt-3 ">
+        <div class="card pb-5 position-relative">
+          <div class="card-body">
+            <h3 class="card-title" id="">
+              ${item.title}
+            </h3>
+            <p class="card-text">${item.description}</p>
+          </div>
+          <div class="position-absolute bottom-0 end-0 pb-1 pe-2 ">
+            <button class="btn px-2 py-1" id="edit" onclick="editTask(${index},'${item.title}','${item.description}')">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="btn px-2 py-1" id="delete" onclick='deleteTask(${index})'>
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </li>`;
+    })
+    .join("");
+}
+
+function deleteTask(index) {
+  const taskToDelete = document.querySelectorAll(".task")[index];
+  taskToDelete.classList.add("hidden");
+  setTimeout(() => {
+    data.splice(index, 1);
+    localStorage.setItem("data", JSON.stringify(data));
+    showMessage("task deleted", "danger");
+    showTasks();
+  }, 300);
+}
+
+function editTask(index, title, description) {
+  isEdit = true;
+  editedId = index;
+  document.getElementById("title").value = title;
+  document.getElementById("description").value = description;
+  document.getElementById("submit-btn").innerText = "update";
+}
+
+showTasks();
