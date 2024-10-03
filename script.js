@@ -41,12 +41,13 @@ document.getElementById("form").addEventListener("submit", function (e) {
 });
 
 //return task as li
+
 function showTasks() {
   var container = document.getElementById("tasks-group");
   container.innerHTML = data
     .map((item, index) => {
-      return ` <li key=${index} class="task col-lg-6 col-sm-12 mt-3 ">
-        <div class="card pb-5 position-relative">
+      return ` <li key=${index} class="task py-4">
+        <div class="card bg-transparent border-0 position-relative">
         <div class="card-body">
         <h3 class='d-grid card-title'>
           ${item.title}
@@ -57,7 +58,7 @@ function showTasks() {
                <button id='complete' class="btn btn-outline-success px-2 py-1 completed-task" >
                     <i class="fa-solid fa-spinner"></i>
               </button>
-                <button class="btn px-2 py-1" id="edit" onclick="editTask(${index},'${item.title}','${item.description}')">
+                <button class="btn px-2 py-1 edit-btn" id="edit" onclick="editTask(${index},'${item.title}','${item.description}')">
                      <i class="fa-solid fa-pen"></i>
               </button>
               <button class="btn px-2 py-1" id="delete" onclick='deleteTask(${index})'>
@@ -75,7 +76,14 @@ function showTasks() {
   var completedBtn = document.querySelectorAll(".completed-task");
   completedBtn.forEach((item, index) => {
     item.addEventListener("click", function () {
+      var selectedTask = document.querySelectorAll(".task")[index];
       item.innerHTML = '<i class="fa-solid fa-check"></i>';
+      selectedTask.classList.add("completed");
+      var editBtn = document.querySelectorAll(".edit-btn")[index];
+      var deleteBtn = document.querySelectorAll("#delete")[index];
+      editBtn.disabled = true;
+      deleteBtn.disabled = true;
+      item.disabled = true;
       showMessage(`task ${index + 1} completed`, "success");
     });
   });

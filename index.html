@@ -19,48 +19,52 @@
   </head>
 
   <body>
-    <main class="position-relative">
-      <section class="container">
-        <div class="bg-white mt-lg-5 mt-3 p-3 py-5 border p-4 rounded">
-          <h1 class="fs-1 fw-bold text-capitalize text-center">curd app</h1>
-          <form id="form">
-            <div class="mb-3">
-              <input
-                type="text"
-                id="title"
-                class="form-control"
-                placeholder="title"
-              />
-            </div>
-            <div class="mb-3">
-              <textarea
-                type="text"
-                id="description"
-                rows="6"
-                class="form-control"
-                placeholder="description"
-              ></textarea>
-              <span
-                id="valiation"
-                class="text-danger text-start validation"
-              ></span>
-            </div>
+    <main>
+      <div class="position-relative container">
+        <section class="tasks-section">
+          <div class="bg-white mt-lg-5 mt-3 p-3 py-5 border p-4 rounded">
+            <h1 class="fs-1 fw-bold text-capitalize text-center py-3">
+              curd app
+            </h1>
+            <form id="form">
+              <div class="mb-3">
+                <input
+                  type="text"
+                  id="title"
+                  class="form-control"
+                  placeholder="title"
+                />
+              </div>
+              <div class="mb-3">
+                <textarea
+                  type="text"
+                  id="description"
+                  rows="6"
+                  class="form-control"
+                  placeholder="description"
+                ></textarea>
+                <span
+                  id="valiation"
+                  class="text-danger text-start validation"
+                ></span>
+              </div>
 
-            <button
-              type="submit"
-              id="submit-btn"
-              class="btn w-100 py-2 fw-semibold"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
+              <button
+                type="submit"
+                id="submit-btn"
+                class="btn w-100 py-2 fw-semibold"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
 
-        <ul id="tasks-group" class="list-unstyled row gap-3 gap-lg-0"></ul>
-      </section>
-      <section class="alert-section">
-        <div id="alert" class="alert"></div>
-      </section>
+          <ul id="tasks-group" class="list-unstyled row gap-3 gap-lg-0"></ul>
+        </section>
+        <section class="alert-section">
+          <div id="alert" class="alert"></div>
+        </section>
+      </div>
     </main>
 
     <script src="./script.js"></script>

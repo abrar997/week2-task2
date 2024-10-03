@@ -5,6 +5,11 @@
   --form-field-background: #f4f8fa90;
   --completed-color: rgb(206, 143, 17);
 }
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 
 body {
   background: #030303d7;
@@ -16,29 +21,47 @@ main {
 }
 .container {
   width: 50%;
-}
-.container h1,
-.container h3 {
-  color: var(--main-color);
+  display: grid;
 }
 
-.container form input,
-.container form textarea {
+.container .tasks-section h1,
+.container .tasks-section h3 {
+  color: var(--main-color);
+}
+.tasks-section {
+  display: grid;
+  gap: 20px;
+}
+.container .tasks-section form input,
+.container .tasks-section form textarea {
   background-color: var(--form-field-background);
   box-shadow: inset 8px 8px 8px #e4e4e437, inset -8px -8px 8px #ffffff;
 }
-.container form .btn {
+.container .tasks-section form .btn {
   background-color: var(--main-color);
   color: white;
 }
-.alert {
-  position: fixed;
-  top: 48px;
-  right: 0px;
-  transform: translateX(-30%);
-  transition: transform 0.5s ease-in-out;
-  height: fit-content;
+
+.container .tasks-section #tasks-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+  margin-inline: 0px;
 }
+.container .tasks-section .task {
+  background-color: white;
+  border-radius: 10px;
+  margin: 4px;
+}
+.container .tasks-section .task .card.completed {
+  opacity: 0.6;
+  background-color: red;
+}
+.task.hidden {
+  transform: translateX(-500%);
+  transition: transform 0.7s ease-in-out, opacity 0.3s ease-in-out;
+}
+
 #edit {
   border: 1px solid var(--edit-color);
   color: var(--edit-color);
@@ -55,8 +78,14 @@ main {
   background-color: var(--delete-color);
   color: white;
 }
+.edit-btn.completed {
+  display: none;
+}
 
 .alert {
+  position: fixed;
+  top: 48px;
+  right: 0px;
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
   min-width: 200px;
@@ -64,11 +93,6 @@ main {
 }
 .alert.active {
   transform: translateX(-90%);
-}
-
-.task.hidden {
-  transform: translateX(-500%);
-  transition: transform 0.7s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 @media screen and (max-width: 990px) {
