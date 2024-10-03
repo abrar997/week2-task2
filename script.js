@@ -52,10 +52,6 @@ function showTasks() {
           ${item.title}
             </h3>
             <p class="card-text">${item.description}</p>
-            <div class='flex align-items-center'>
-            <input type='checkbox' placeholder='completed' id='check' class='check-task'  />
-            <label>completed</label>
-            </div>
           </div>
           <div class="position-absolute bottom-0 end-0 pb-1 pe-2 ">
                <button id='complete' class="btn btn-outline-success px-2 py-1 completed-task" >

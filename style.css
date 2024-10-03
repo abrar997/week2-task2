@@ -1,6 +1,7 @@
 :root {
   --main-color: rgb(5, 129, 129);
   --delete-color: rgb(189, 19, 87);
+  --edit-color: rgb(42, 126, 165);
   --form-field-background: #f4f8fa90;
   --completed-color: rgb(206, 143, 17);
 }
@@ -39,11 +40,11 @@ main {
   height: fit-content;
 }
 #edit {
-  border: 1px solid brown;
-  color: brown;
+  border: 1px solid var(--edit-color);
+  color: var(--edit-color);
 }
 #edit:hover {
-  background-color: brown;
+  background-color: var(--edit-color);
   color: white;
 }
 #delete {
