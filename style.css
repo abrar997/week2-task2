@@ -2,6 +2,7 @@
   --main-color: rgb(5, 129, 129);
   --delete-color: rgb(189, 19, 87);
   --form-field-background: #f4f8fa90;
+  --completed-color: rgb(206, 143, 17);
 }
 
 body {
@@ -38,35 +39,35 @@ main {
   height: fit-content;
 }
 #edit {
-  border: 1px solid var(--main-color);
-  color: var(--main-color);
+  border: 1px solid brown;
+  color: brown;
+}
+#edit:hover {
+  background-color: brown;
+  color: white;
 }
 #delete {
   border: 1px solid var(--delete-color);
   color: var(--delete-color);
 }
-#task {
-  background-color: var(--form-field-background);
-  box-shadow: inset 8px 8px 8px #e4e4e437, inset -8px -8px 8px #ffffff;
+#delete:hover {
+  background-color: var(--delete-color);
+  color: white;
 }
+
 .alert {
-  transform: translateX(300%);
+  transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
-  bottom: -80px;
-  right: -40px;
+  min-width: 200px;
+  text-align: center;
 }
 .alert.active {
-  transform: translateX(-100%);
+  transform: translateX(-90%);
 }
 
 .task.hidden {
-  transform: translateX(-200%);
-  transition: transform 0.5s ease-in-out;
-}
-
-.task.completed .card {
-  background-color: #e0f7fa; /* Light blue background for completed tasks */
-  text-decoration: line-through; /* Strikethrough text */
+  transform: translateX(-500%);
+  transition: transform 0.7s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 @media screen and (max-width: 990px) {
