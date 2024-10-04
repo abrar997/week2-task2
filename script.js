@@ -1,9 +1,11 @@
-var alerts = document.getElementById("alert");
-var edit = document.getElementById("edit");
+var alerts = document.getElementById("alert"); //to show notification
+
 let isEdit = false; //for updated task
 let editedId;
 
-var data = localStorage.getItem("data")
+let isNewTask = false; //add animation when add new task
+
+const data = localStorage.getItem("data")
   ? JSON.parse(localStorage.getItem("data"))
   : [];
 
@@ -14,7 +16,6 @@ function showMessage(message, className) {
   alerts.classList.add("active");
   setTimeout(() => alerts.classList.remove("active"), 2000);
 }
-
 //add new task when submit btn
 document.getElementById("form").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -23,68 +24,86 @@ document.getElementById("form").addEventListener("submit", function (e) {
   const TaskData = {
     title: title,
     description: description,
+    completed: false,
   };
   if (!isEdit) {
-    //if it's not updated task add enw task
+    //if it's not updated task , add new task
     data.push(TaskData);
+    isNewTask = true;
     showMessage("task added successfully", "info");
   } else {
     //return updated task
-    isEdit = false;
     data[editedId] = TaskData;
     showMessage("task updated successfully", "info");
+    isEdit = false;
+    isNewTask = false;
   }
   document.getElementById("submit-btn").innerText = "submit";
-  localStorage.setItem("data", JSON.stringify(data));
+  setTimeout(() => {
+    localStorage.setItem("data", JSON.stringify(data));
+  }, 300);
   document.getElementById("form").reset();
-  showTasks();
+  showTasks(); //render all tasks after add or update task
 });
 
 //return task as li
-
 function showTasks() {
   var container = document.getElementById("tasks-group");
   container.innerHTML = data
     .map((item, index) => {
-      return ` <li key=${index} class="task py-4">
+      return ` <li key=${index} class="task py-4 pb-2 ${
+        item.completed ? "completed" : ""
+      }">
         <div class="card bg-transparent border-0 position-relative">
-        <div class="card-body">
-        <h3 class='d-grid card-title'>
+        <div class="p-0 px-lg-2 card-body">
+        <h3 class='card-title'>
           ${item.title}
             </h3>
-            <p class="card-text">${item.description}</p>
-          </div>
-          <div class="position-absolute bottom-0 end-0 pb-1 pe-2 ">
-               <button id='complete' class="btn btn-outline-success px-2 py-1 completed-task" >
-                    <i class="fa-solid fa-spinner"></i>
+            <p class="card-text h-100 pb-4">${item.description}</p>
+            <div class="position-absolute  bottom-0 end-0">
+            <button id='complete' class="btn btn-outline-success px-2 py-1 completed-task"  ${
+              item.completed ? "disabled" : ""
+            }>
+            <i class="fa-solid fa-check"></i>
               </button>
-                <button class="btn px-2 py-1 edit-btn" id="edit" onclick="editTask(${index},'${item.title}','${item.description}')">
+                <button class="btn px-2 py-1  edit-btn ${
+                  item.completed ? "d-none" : ""
+                }" id="edit" onclick="editTask(${index},'${item.title}','${
+        item.description
+      }')">
                      <i class="fa-solid fa-pen"></i>
               </button>
               <button class="btn px-2 py-1" id="delete" onclick='deleteTask(${index})'>
                     <i class="fa-solid fa-trash"></i>
               </button>
-           
-            <div>
-            </div>
-          </div>
-        </div>
+              </div>
+              </div>
+              </div> 
       </li>`;
     })
     .join("");
+
+  //add smoothly animation when add new task
+  if (isNewTask) {
+    const tasks = document.querySelectorAll(".task");
+    const newTask = tasks[tasks.length - 1];
+    newTask.classList.add("new");
+    setTimeout(() => {
+      newTask.classList.remove("new");
+    }, 300);
+
+    isNewTask = false;
+  }
+
   //when click on completed btn and to change text after click on btn
   var completedBtn = document.querySelectorAll(".completed-task");
   completedBtn.forEach((item, index) => {
     item.addEventListener("click", function () {
-      var selectedTask = document.querySelectorAll(".task")[index];
-      item.innerHTML = '<i class="fa-solid fa-check"></i>';
-      selectedTask.classList.add("completed");
-      var editBtn = document.querySelectorAll(".edit-btn")[index];
-      var deleteBtn = document.querySelectorAll("#delete")[index];
-      editBtn.disabled = true;
-      deleteBtn.disabled = true;
-      item.disabled = true;
+      data[index].completed = true;
       showMessage(`task ${index + 1} completed`, "success");
+      item.disabled = true;
+      localStorage.setItem("data", JSON.stringify(data));
+      showTasks(); //render task after complete task
     });
   });
 }
@@ -97,18 +116,19 @@ function deleteTask(index) {
   setTimeout(() => {
     data.splice(index, 1);
     localStorage.setItem("data", JSON.stringify(data));
-    showMessage("task deleted", "danger");
-    showTasks();
+    showMessage(`task ${index + 1} deleted`, "danger");
+    showTasks(); //render tasks after deleted item
   }, 300);
 }
+
 //edit task
 function editTask(index, title, description) {
   isEdit = true;
   editedId = index;
   document.getElementById("title").value = title;
   document.getElementById("description").value = description;
-
   document.getElementById("submit-btn").innerText = "update";
 }
-//show tasks without refresh page
+
+//render tasks without refresh page
 showTasks();
