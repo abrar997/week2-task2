@@ -17,15 +17,18 @@ function showMessage(message, className) {
   setTimeout(() => alerts.classList.remove("active"), 2000);
 }
 //add new task when submit btn
-document.getElementById("form").addEventListener("submit", function (e) {
+document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
+
   var title = document.getElementById("title").value;
   var description = document.getElementById("description").value;
+
   const TaskData = {
     title: title,
     description: description,
     completed: false,
   };
+
   if (!isEdit) {
     //if it's not updated task , add new task
     data.push(TaskData);
@@ -38,11 +41,14 @@ document.getElementById("form").addEventListener("submit", function (e) {
     isEdit = false;
     isNewTask = false;
   }
+
   document.getElementById("submit-btn").innerText = "submit";
   setTimeout(() => {
     localStorage.setItem("data", JSON.stringify(data));
   }, 300);
-  document.getElementById("form").reset();
+
+  document.getElementById("form").reset(); //reset inputs values
+
   showTasks(); //render all tasks after add or update task
 });
 
@@ -98,7 +104,7 @@ function showTasks() {
   //when click on completed btn and to change text after click on btn
   var completedBtn = document.querySelectorAll(".completed-task");
   completedBtn.forEach((item, index) => {
-    item.addEventListener("click", function () {
+    item.addEventListener("click", () => {
       data[index].completed = true;
       showMessage(`task ${index + 1} completed`, "success");
       item.disabled = true;
@@ -109,7 +115,7 @@ function showTasks() {
 }
 
 //delete task
-function deleteTask(index) {
+const deleteTask = (index) => {
   const taskToDelete = document.querySelectorAll(".task")[index];
   taskToDelete.classList.add("hidden");
   //delete process complete in 0.3s to add smoothly transition
@@ -119,16 +125,16 @@ function deleteTask(index) {
     showMessage(`task ${index + 1} deleted`, "danger");
     showTasks(); //render tasks after deleted item
   }, 300);
-}
+};
 
 //edit task
-function editTask(index, title, description) {
+const editTask = (index, title, description) => {
   isEdit = true;
   editedId = index;
   document.getElementById("title").value = title;
   document.getElementById("description").value = description;
   document.getElementById("submit-btn").innerText = "update";
-}
+};
 
 //render tasks without refresh page
 showTasks();

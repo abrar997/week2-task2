@@ -24,38 +24,38 @@ main {
   display: grid;
 }
 
-.container .tasks-section h1,
-.container .tasks-section h3 {
+.tasks-section h1,
+.tasks-section h3 {
   color: var(--main-color);
 }
 .tasks-section {
   display: grid;
   gap: 20px;
 }
-.container .tasks-section form input,
-.container .tasks-section form textarea {
+.tasks-section form input,
+.tasks-section form textarea {
   background-color: var(--form-field-background);
   box-shadow: inset 8px 8px 8px #e4e4e437, inset -8px -8px 8px #ffffff;
 }
-.container .tasks-section form .btn {
+.tasks-section form .btn {
   background-color: var(--main-color);
   color: white;
 }
 
-.container .tasks-section #tasks-group {
+.tasks-section #tasks-group {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: start;
   margin-inline: 0px;
   gap: 16px !important;
 }
-.container .tasks-section .task {
+.tasks-section .task {
   background-color: white;
   border-radius: 10px;
   border: 4px solid var(--main-color);
 }
 
-.container .tasks-section .task.completed {
+.task.completed {
   border: 4px solid gray;
 }
 .task.hidden {
@@ -69,7 +69,7 @@ main {
 
 .task.new {
   opacity: 0;
-  animation: opacity 0.5s ease-in;
+  animation: opacity 0.4s ease-in-out;
 }
 @keyframes opacity {
   0% {
@@ -80,11 +80,11 @@ main {
   }
 }
 
-.edit-btn {
+.task .edit-btn {
   border: 1px solid var(--edit-color);
   color: var(--edit-color);
 }
-.edit-btn:hover {
+.task .edit-btn:hover {
   background-color: var(--edit-color);
   color: white;
 }
@@ -96,15 +96,15 @@ main {
   display: none;
 }
 
-#delete {
+.task #delete {
   border: 1px solid var(--delete-color);
   color: var(--delete-color);
 }
-#delete:hover {
+.task #delete:hover {
   background-color: var(--delete-color);
   color: white;
 }
-.alert {
+.alert-section .alert {
   position: fixed;
   top: 48px;
   right: 0px;
@@ -121,17 +121,14 @@ main {
   .container {
     width: 100%;
   }
-  .container .tasks-section #tasks-group {
+  .tasks-section #tasks-group {
     grid-template-columns: repeat(1, 1fr);
     gap: 12px !important;
   }
-  .alert {
+  .alert-section .alert {
     position: fixed;
-    top: 20px;
-    right: -150px;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    min-width: 200px;
-    text-align: center;
+    top: 0px;
+    right: -170px;
+    min-width: 12gf0px;
   }
 }
